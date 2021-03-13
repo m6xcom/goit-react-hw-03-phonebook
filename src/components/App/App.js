@@ -9,6 +9,19 @@ class App extends Component {
     contacts: [],
     filter: "",
   };
+  componentDidMount() {
+    const storageContacts = JSON.parse(localStorage.getItem("contacts"));
+    if (storageContacts) {
+      this.setState({
+        contacts: storageContacts,
+      });
+    }
+  }
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.contacts !== prevState.contacts) {
+      localStorage.setItem("contacts", JSON.stringify(this.state.contacts));
+    }
+  }
   addContact = (contact) => {
     if (this.state.contacts.every((el) => el.name !== contact.name)) {
       this.setState((prevState) => {
